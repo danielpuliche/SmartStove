@@ -18,7 +18,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Chart from '../Chart/Chart';
-import Deposits from '../Info/Info';
+import Info from '../Info/Info';
+import Slider from '../Slider/Slider'
+import Temporizador from '../Temporizador/Temporizador'
 
 
 const drawerWidth: number = 240;
@@ -83,6 +85,22 @@ const DashboardContent: React.FC<Props> = (props) => {
     setOpen(!open);
   };
 
+  const lastData: any = props.data[props.data.length - 1]
+  let boquilla: any = "0"
+  let presencia: any = "0"
+
+  try {
+    boquilla = lastData.field3
+  } catch (e1) {
+    boquilla = "0"
+  }
+
+  try {
+    presencia = lastData.field4
+  } catch (e2) {
+    presencia = "0"
+  }
+
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: 'flex' }}>
@@ -119,16 +137,13 @@ const DashboardContent: React.FC<Props> = (props) => {
         <Box
           component="main"
           sx={{
-            backgroundColor: (theme) =>
-              theme.palette.mode === 'light'
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
+            bgcolor: '#94dde6',
             flexGrow: 1,
             height: '100vh',
             overflow: 'auto',
           }}
         >
-          <Toolbar />
+          <Toolbar/>
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={2}>
               {/* Chart TEMPERATURA*/}
@@ -144,7 +159,7 @@ const DashboardContent: React.FC<Props> = (props) => {
                   <Chart title="Temperatura" data={props.data} label="Celsius (°C)" field={"field1"} color={"red"}/>
                 </Paper>
               </Grid>
-              {/* Recent Deposits */}
+              {/* BOQUILLA */}
               <Grid item xs={12} md={4} lg={3}>
                 <Paper
                   sx={{
@@ -154,7 +169,7 @@ const DashboardContent: React.FC<Props> = (props) => {
                     height: 240,
                   }}
                 >
-                  <Deposits />
+                  <Info title={"Boquilla"} data={boquilla}/>
                 </Paper>
               </Grid>
               {/* Chart GAS*/}
@@ -170,7 +185,7 @@ const DashboardContent: React.FC<Props> = (props) => {
                   <Chart title="Gas" data={props.data} label="Unidades" field={"field2"} color={"green"}/>
                 </Paper>
               </Grid>
-              {/* Recent Deposits */}
+              {/* PRESENCIA */}
               <Grid item xs={12} md={4} lg={3}>
                 <Paper
                   sx={{
@@ -180,10 +195,41 @@ const DashboardContent: React.FC<Props> = (props) => {
                     height: 240,
                   }}
                 >
-                  <Deposits />
+                  <Info title={"Presencia"} data={presencia}/>
                 </Paper>
               </Grid>
             </Grid>
+          </Container>
+          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+            <Grid container spacing={2}>
+              {/* Ingresar temperatura */}
+              <Grid item xs={12} md={8} lg={6}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: 240,
+                  }}
+                >
+                  <Slider title={"Ingrese el valor de temperatura: "}/>
+                </Paper>
+              </Grid>
+                
+              {/* Temporizador*/}
+              <Grid item xs={12} md={8} lg={6}>
+                  <Paper
+                    sx={{
+                      p: 2,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      height: 240,
+                    }}
+                  >
+                    <Temporizador/>
+                  </Paper>
+              </Grid>
+            </Grid>  
           </Container>
         </Box>
       </Box>

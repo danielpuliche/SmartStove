@@ -1,8 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
 import React, { useState, useEffect } from 'react';
-import Tabla from './components/Tabla/Tabla.jsx';
-import GraficaBarra from './components/GraficaBarra/GraficaBarra';
 import Dashboard from './components/Dashboard/Dashboard.tsx';
 
 const App = () => {
@@ -22,7 +20,7 @@ const App = () => {
 
       return () => clearInterval(intervalId)
 
-    },5000)
+    },2000)
 
     
   }, []);
