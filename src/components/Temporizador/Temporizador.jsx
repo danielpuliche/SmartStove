@@ -5,7 +5,7 @@ import { InputNumber} from 'antd';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 
-function Timer() {
+function Temporizador(props) {
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
@@ -19,6 +19,7 @@ function Timer() {
         if (time === 0 || time < 0) {
           clearInterval(interval);
           setIsCounting(false);
+          props.changeCount(0);
           return null;
         }
         return time - 1;
@@ -31,13 +32,13 @@ function Timer() {
     const totalSeconds = hours * 3600 + minutes * 60 + seconds;
     setTimeRemaining(totalSeconds);
     setIsCounting(true);
-
+    props.changeCount(1);
   }
 
   return (
     <div>
         <Grid container >
-            <Grid item xs={12} md={6} lg={4}>
+            <Grid item xs={4} md={4} lg={4}>
                 <Paper
                 sx={{
                     p: 2,
@@ -51,7 +52,7 @@ function Timer() {
                     <InputNumber size="large" min={0} max={4} defaultValue={hours} onChange={(e) => setHours(Number(e))}/>
                 </Paper>
             </Grid>
-            <Grid item xs={12} md={6} lg={4}>
+            <Grid item xs={4} md={4} lg={4}>
                 <Paper
                 sx={{
                     p: 2,
@@ -65,7 +66,7 @@ function Timer() {
                     <InputNumber size="large" min={0} max={60} defaultValue={minutes} onChange={(e) => setMinutes(Number(e))}/>
                 </Paper>
             </Grid>
-            <Grid item xs={12} md={6} lg={4}>
+            <Grid item xs={4} md={4} lg={4}>
                 <Paper
                 sx={{
                     p: 2,
@@ -91,18 +92,17 @@ function Timer() {
                 </Paper>
             </Grid>
         </Grid>
-        
         {timeRemaining !== null ? (
         <p>
-          Time remaining: {Math.floor(timeRemaining / 3600)} hours{" "}
-          {Math.floor((timeRemaining % 3600) / 60)} minutes{" "}
-          {timeRemaining % 60} seconds
+          Tiempo restante: {Math.floor(timeRemaining / 3600)} Horas {" "}
+          {Math.floor((timeRemaining % 3600) / 60)} minutos{" "}
+          {timeRemaining % 60} Segundos
         </p>
       ) : (
-        <p>Enter a time above to start the timer</p>
+        <p>Ingrese el tiempo</p>
       )}
     </div>
   );
 }
 
-export default Timer;
+export default Temporizador;

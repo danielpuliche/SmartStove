@@ -75,7 +75,14 @@ class DashboardContent extends React.Component<any, any> {
       lastData: 0,
       boquilla: 0,
       presencia: 0,
+      lastTemp: 0
     };
+  }
+
+  setLastTemp = (newVal: any) => {
+    this.setState({
+      lastTemp: newVal
+    });
   }
 
   setOpen = () => {
@@ -84,7 +91,7 @@ class DashboardContent extends React.Component<any, any> {
     });
   };
 
-  setLastData = (newValue) =>{
+  setLastData = (newValue: any) =>{
     this.setState({
       lastData: newValue,
     });
@@ -118,6 +125,12 @@ class DashboardContent extends React.Component<any, any> {
     this.intervalId = setInterval(() => {      
 
       this.setLastData(this.props.data[this.props.data.length - 1])
+      
+      try {
+        this.setLastTemp(this.state.lastTemp.field6)
+      } catch (e0) {
+        this.setLastTemp(0)
+      }
 
       try {
         this.setBoquilla(this.state.lastData.field3)
@@ -242,7 +255,7 @@ class DashboardContent extends React.Component<any, any> {
             <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
               <Grid container spacing={2}>
                 {/* Ingresar temperatura */}
-                <Grid item xs={12} md={8} lg={6}>
+                <Grid item xs={12} md={12} lg={6}>
                   <Paper
                     sx={{
                       p: 2,
@@ -253,14 +266,14 @@ class DashboardContent extends React.Component<any, any> {
                   >
                     <Slider
                       title={"Ingrese el valor de temperatura: "}
-                      tempDeseada={this.props.tempDeseada}
+                      tempDeseada={this.state.lastTemp}
                       changeTemp={this.props.chgTemp}
                     />
                   </Paper>
                 </Grid>
 
                 {/* Temporizador*/}
-                <Grid item xs={12} md={8} lg={6}>
+                <Grid item xs={12} md={12} lg={6}>
                   <Paper
                     sx={{
                       p: 2,
@@ -269,7 +282,7 @@ class DashboardContent extends React.Component<any, any> {
                       height: 240,
                     }}
                   >
-                    <Temporizador />
+                    <Temporizador changeCount={this.props.chgCounting} count={this.props.counter}/>
                   </Paper>
                 </Grid>
               </Grid>
@@ -286,15 +299,28 @@ class Dashboard extends React.Component<any> {
     super(props);
   }
 
-  changeTemperature = () => {
-    this.props.setTemperaturaDeseada(10);
+  changeTemperature = (val: number) => {
+    try{
+      this.props.setTemperaturaDeseada(val);
+    }catch{
+      this.props.setTemperaturaDeseada(10);
+    }
   };
 
+  changeCounting = (val: number) => {
+    try{
+      this.props.setIsCounting(val);
+    }catch{
+      this.props.setIsCounting(0);
+    }
+  };
   render() {
     return (
       <DashboardContent
         data={this.props.data}
         chgTemp={this.changeTemperature}
+        chgCounting={this.changeCounting}
+        counter={this.props.isCounting}
         tempDeseada={this.props.tempeDeseada}
       />
     );

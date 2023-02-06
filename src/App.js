@@ -99,6 +99,7 @@ class App extends React.Component {
           data={this.state.data}
           setIsCounting={this.setIsCounting}
           setTemperaturaDeseada={this.setTemperaturaDeseada}
+          isCounting={this.state.isCounting}
           tempeDeseada={this.state.temperaturaDeseada}
         />
       </div>
