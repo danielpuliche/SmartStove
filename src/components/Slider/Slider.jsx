@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
-import Typography from '@mui/material/Typography';
 import Title from '../Title/Title';
 import {ResponsiveContainer} from 'recharts';
-import Button from '@mui/material/Button';
 
 const marks = [
   {
@@ -37,44 +35,21 @@ function valuetext(value) {
   return `${value}°C`;
 }
 
-const API_KEY = "V18U20C2BKG99MQE";
-
-function sendTemp(data) {
-  const response = fetch(
-    `https://api.thingspeak.com/update?api_key=${API_KEY}&field6=${data}`
-  );
-
-  if (response.ok) {
-    console.log("Data escrito con éxito");
-  } else {
-    console.error("Error al escribir datos");
-  }
-}
-
 export default function DiscreteSliderLabel(props) {
-
-  const [tempDeseada, setTempDeseada] = useState(0);
-
-  const handleChange = (event, newValue) => {
-    setTempDeseada(newValue);
-  }; 
-
   return (
     <React.Fragment>
       <Title>{props.title}</Title>
       <ResponsiveContainer>
         <Box style={{marginLeft:"10%", width:"80%", marginTop:"8%"}}>
         <Slider
-          value = {tempDeseada}
           aria-label="Always visible"
-          defaultValue={0}
+          defaultValue={props.temperaturaDeseada}
           getAriaValueText={valuetext}
           step={10}
           marks={marks}
           valueLabelDisplay="on"
-          onChange={handleChange}
+          onChange={(event,value) => props.changeTemp(value)}
         />
-        <Button variant="contained" onClick={console.log("PRESS")}>Enviar temperatura</Button>
         </Box>
       </ResponsiveContainer>
     </React.Fragment>

@@ -1,11 +1,6 @@
 import * as React from 'react';
-import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Title from '../Title/Title';
-
-function preventDefault(event) {
-  event.preventDefault();
-}
 
 const isON = (data) => {if (parseInt(data) == 0) {
     return "OFF"
